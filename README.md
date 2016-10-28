@@ -1,4 +1,4 @@
-# Getting Started Building and Deploying with Distelli - NodeJS Example
+# Getting Started Building and Deploying with Distelli - NodeJS Example 
 
 This tutorial will get you setup, building, testing, and deploying an application with Distelli in minutes. 
 
@@ -10,7 +10,7 @@ The tutorial assumes you have already:
  
 The scenario also expects that you have a **Destination** server available to do deployments of the example application.
 
-### Step 1. Prepare Server for Deployment
+### Step 1. Prepare Server for Deployment   
 
 To enable auto deployment of an application you must have a destination server to deploy to.
 
@@ -18,7 +18,7 @@ If you don't have a server you can use a virtual server. For a simple guide to s
 
 You must install the Distelli agent on the server to facilitate deployments. Instructions on installing the Distelli agent can be found here <a href="http://docs.distelli.com/docs/distelli-agent" target="_blank">Distelli agent reference guide.</a>
 
-Install the agent and return to this document.
+Install the agent and return to this document.   
 
 ### Step 2. Fork and Clone the Repository
 
@@ -77,29 +77,14 @@ For example if your username is 'YourUserName' your `distelli-manifest.yml` shou
 
 ```
 YourUserName/nodejsbuilddeploy:
-  # Distelli Manifest example
-  # this example assumes the build and deploy servers are:
-  # Ubuntu 14.04
-
-  PreRelease:
-    - echo "---Beginning PreRelease---"
-    - echo "--Installing build dependencies--"
-    - echo "-Updating apt-get-"
-    - sudo apt-get -y update
-    - echo "-Installing nodejs-"
-    - sudo apt-get -y install nodejs
-    - echo "-Installing npm-"
-    - sudo apt-get -y install npm
-    - echo "--Building--"
-    - sudo npm install
+  Build:
+    - echo "---Building---"
+    - npm install
     - echo "--Testing--"
     - npm test
 
   PkgInclude:
     - '*'
-
-  PkgExclude:
-    - node_modules/
 
   PreInstall:
     - echo "---Begining PreInstall---"
@@ -108,18 +93,15 @@ YourUserName/nodejsbuilddeploy:
     - sudo apt-get -y update
     - echo "-Installing nodejs-"
     - sudo apt-get -y install nodejs
-    - echo "-Installing npm-"
-    - sudo apt-get -y install npm
 
   PostInstall:
     - echo "Begin PostInstall"
-    - npm install
-    
+
   Env:
-    - PORT: 3000
-    
+    - PORT: "3000"
+
   Exec:
-    - /usr/bin/nodejs app.js
+    - nodejs app.js
 ```
 
 **Save your change.**

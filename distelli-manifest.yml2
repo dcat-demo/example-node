@@ -1,5 +1,5 @@
 bmcgehee/example-node: 
-  # Distelli Manifest example  
+  # Distelli Manifest example 
   
   PreBuild:     
     # Add any build pre-requisites here 
@@ -7,7 +7,7 @@ bmcgehee/example-node:
     
   #CommitData:
     #- RepoType: Git   
-    #- RepoPath: . 
+    #- RepoPath: .
 
   Build:
     # Enter your build steps here!
@@ -16,31 +16,13 @@ bmcgehee/example-node:
     - source ~/.nvm/nvm.sh
     # Install node v4.4.7
     - nvm install v4.4.7
-    # install latest npm version globally 
+    # install latest npm version globlaly
     - npm install npm -g   
-
-    # Testing
-    #- sudo apt-get update
-    #- sudo apt-get -y install dnsutils
-    #- sudo apt-get -y install iputils-ping
-    #- nslookup skimdb.npmjs.com
-    #- dig skimdb.npmjs.com
-    #- ping -c 3 skimdb.npmjs.com
-    #- npm config set registry https://skimdb.npmjs.com/registry
-    #- nslookup registry.npmjs.com
-    #- dig registry.npmjs.com
-    #- ping -c 3 registry.npmjs.com
-    #- npm config set registry https://registry.npmjs.org
-
 
     #- echo "---Building---"   
     - npm install 
     #- echo "--Testing--"
     - npm test
-    
-    - echo "Distelli Build Image?"
-    - echo "====================="
-    - cat /distelli_build_image.info || true
    
   PkgInclude:
     - '*'
@@ -58,19 +40,15 @@ bmcgehee/example-node:
     - AWS_SECRET_ACCESS_KEY: "Set in Distelli"
     - PATH: "/usr/local/bin:$PATH"
     - test: "Testing"
-    - DISTELLI_TMP_FILENAME: "$DISTELLI_INSTALLHOME/DISTELLI.$DISTELLI_BUILDNUM.$DISTELLI_RELVERSION.tmp"
  
   InstallTemplates:
-    - "views/index.pug"
+    - "views/index.jade"
     - ["deregister-elb.sh","."]
     - ["register-elb.sh","."]
 
   PreInstall:  
     # Use this section to install any deployment pre-requisites.
     - echo "---PreInstall---"
-    - START=$(date +%s)
-    - echo "$START" > "$DISTELLI_TMP_FILENAME"
-
     - echo "This is an addition"
     - echo "--Installing deploy dependencies--"
     - echo "-Updating apt-get-"
@@ -86,24 +64,24 @@ bmcgehee/example-node:
     #- echo "$PATH" 
     #- which aws
     # Check to see if aws cli is installed
-    #- if which aws >/dev/null; then
-    #-   echo "--AWS CLI exists--"
-    #- else
-    #-   echo "--Installing AWS CLI--"
+    - if which aws >/dev/null; then
+    -   echo "--AWS CLI exists--"
+    - else
+    -   echo "--Installing AWS CLI--"
     #   Check to see if unzip is installed
-    #-   if which unzip >/dev/null; then
-    #-     echo "--Unzip exists--"
-    #-   else
-    #-     echo "--Installing unzip--"
-    #-     sudo apt-get -y install unzip
-    #-   fi
-    #-   curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-    #-   unzip awscli-bundle.zip
-    #-   sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
-    #- fi
+    -   if which unzip >/dev/null; then
+    -     echo "--Unzip exists--"
+    -   else
+    -     echo "--Installing unzip--"
+    -     sudo apt-get -y install unzip
+    -   fi
+    -   curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+    -   unzip awscli-bundle.zip
+    -   sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+    - fi
     #- ./deregister-elb.sh
-    #- echo "Deregistered with the ELB. Waiting 1 minute"
-    #- sleep 60
+    - echo "Deregistered with the ELB. Waiting 1 minute"
+    - sleep 60
  
   Exec:
     - nodejs app.js 
@@ -112,10 +90,5 @@ bmcgehee/example-node:
     #- ./register-elb.sh
     - publicip=$(curl -s ident.me) || true
     - 'echo "You can validate the install by pointing your browser at http://$publicip:$PORT"'
-    - START=$(cat $DISTELLI_TMP_FILENAME)
-    - rm "$DISTELLI_TMP_FILENAME"
-    - END=$(date +%s)
-    - echo $((END-START)) | awk '{printf " This deploy took %02d minutes and %02d seconds\n",int($1/60), int($1%60)}'
-
 
 

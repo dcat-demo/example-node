@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
-var newRelic = require('newrelic');
 
 var timeController = require('./controllers/time');
 var homeController = require('./controllers/home');
